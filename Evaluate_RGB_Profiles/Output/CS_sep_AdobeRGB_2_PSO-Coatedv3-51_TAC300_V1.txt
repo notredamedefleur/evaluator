@@ -1,0 +1,135 @@
+L:100.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  95.0%   DL:  93.2%   DC:   0.0%   DH:   0.0%
+L: 99.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  94.6%   DL:  92.8%   DC:   0.0%   DH:   0.0%
+L: 98.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  87.3%   DL:  86.0%   DC:   0.0%   DH:   0.0%
+L: 97.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  78.0%   DL:  77.5%   DC:   0.0%   DH:   0.0%
+L: 96.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  78.0%   DL:  77.5%   DC:   0.0%   DH:   0.0%
+L: 95.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  85.1%   DL:  84.4%   DC:   0.0%   DH:   0.0%
+L: 94.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.1%   DL:  89.6%   DC:   0.0%   DH:   0.0%
+L: 93.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.8%   DL:  89.6%   DC:   0.0%   DH:   0.0%
+L: 92.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  89.4%   DL:  88.1%   DC:   0.0%   DH:   0.0%
+L: 91.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.0%   DL:  89.6%   DC:   0.0%   DH:   0.0%
+L: 90.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.2%   DL:  89.8%   DC:   0.0%   DH:   0.0%
+L: 89.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.7%   DL:  91.2%   DC:   0.0%   DH:   0.0%
+L: 88.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.4%   DL:  89.0%   DC:   0.0%   DH:   0.0%
+L: 87.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.7%   DL:  89.0%   DC:   0.0%   DH:   0.0%
+L: 86.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.7%   DL:  90.3%   DC:   0.0%   DH:   0.0%
+L: 85.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.5%   DL:  90.0%   DC:   0.0%   DH:   0.0%
+L: 84.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.2%   DL:  91.5%   DC:   0.0%   DH:   0.0%
+L: 83.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  93.7%   DL:  93.2%   DC:   0.0%   DH:   0.0%
+L: 82.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.2%   DL:  91.8%   DC:   0.0%   DH:   0.0%
+L: 81.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.6%   DL:  90.9%   DC:   0.0%   DH:   0.0%
+L: 80.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  94.3%   DL:  93.7%   DC:   0.0%   DH:   0.0%
+L: 79.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.5%   DL:  90.6%   DC:   0.0%   DH:   0.0%
+L: 78.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.0%   DL:  91.0%   DC:   0.0%   DH:   0.0%
+L: 77.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.1%   DL:  91.2%   DC:   0.0%   DH:   0.0%
+L: 76.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  89.7%   DL:  88.7%   DC:   0.0%   DH:   0.0%
+L: 75.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  93.7%   DL:  92.8%   DC:   0.0%   DH:   0.0%
+L: 74.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  93.1%   DL:  92.5%   DC:   0.0%   DH:   0.0%
+L: 73.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.5%   DL:  92.2%   DC:   0.0%   DH:   0.0%
+L: 72.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  96.0%   DL:  95.9%   DC:   0.0%   DH:   0.0%
+L: 71.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  95.2%   DL:  95.0%   DC:   0.0%   DH:   0.0%
+L: 70.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  87.9%   DL:  87.6%   DC:   0.0%   DH:   0.0%
+L: 69.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.2%   DL:  92.2%   DC:   0.0%   DH:   0.0%
+L: 68.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.7%   DL:  91.6%   DC:   0.0%   DH:   0.0%
+L: 67.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.5%   DL:  91.5%   DC:   0.0%   DH:   0.0%
+L: 66.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  95.1%   DL:  95.1%   DC:   0.0%   DH:   0.0%
+L: 65.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  94.9%   DL:  94.8%   DC:   0.0%   DH:   0.0%
+L: 64.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  93.9%   DL:  93.8%   DC:   0.0%   DH:   0.0%
+L: 63.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.6%   DL:  92.5%   DC:   0.0%   DH:   0.0%
+L: 62.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  94.0%   DL:  94.0%   DC:   0.0%   DH:   0.0%
+L: 61.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  93.6%   DL:  93.5%   DC:   0.0%   DH:   0.0%
+L: 60.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  95.3%   DL:  95.3%   DC:   0.0%   DH:   0.0%
+L: 59.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  93.5%   DL:  93.4%   DC:   0.0%   DH:   0.0%
+L: 58.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.5%   DL:  90.4%   DC:   0.0%   DH:   0.0%
+L: 57.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76: 104.7%   DL: 104.7%   DC:   0.0%   DH:   0.0%
+L: 56.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76: 105.0%   DL: 105.0%   DC:   0.0%   DH:   0.0%
+L: 55.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76: 107.2%   DL: 107.2%   DC:   0.0%   DH:   0.0%
+L: 54.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  82.6%   DL:  82.5%   DC:   0.0%   DH:   0.0%
+L: 53.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  82.3%   DL:  82.2%   DC:   0.0%   DH:   0.0%
+L: 52.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  80.7%   DL:  80.6%   DC:   0.0%   DH:   0.0%
+L: 51.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  87.9%   DL:  87.8%   DC:   0.0%   DH:   0.0%
+L: 50.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  92.1%   DL:  92.1%   DC:   0.0%   DH:   0.0%
+L: 49.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  89.8%   DL:  89.6%   DC:   0.0%   DH:   0.0%
+L: 48.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  89.5%   DL:  89.4%   DC:   0.0%   DH:   0.0%
+L: 47.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.0%   DL:  89.8%   DC:   0.0%   DH:   0.0%
+L: 46.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  89.5%   DL:  89.4%   DC:   0.0%   DH:   0.0%
+L: 45.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  87.1%   DL:  86.9%   DC:   0.0%   DH:   0.0%
+L: 44.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.3%   DL:  90.0%   DC:   0.0%   DH:   0.0%
+L: 43.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.5%   DL:  91.3%   DC:   0.0%   DH:   0.0%
+L: 42.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.0%   DL:  90.9%   DC:   0.0%   DH:   0.0%
+L: 41.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.0%   DL:  89.8%   DC:   0.0%   DH:   0.0%
+L: 40.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  91.3%   DL:  91.2%   DC:   0.0%   DH:   0.0%
+L: 39.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  90.9%   DL:  90.7%   DC:   0.0%   DH:   0.0%
+L: 38.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  89.6%   DL:  89.4%   DC:   0.0%   DH:   0.0%
+L: 37.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  87.6%   DL:  87.4%   DC:   0.0%   DH:   0.0%
+L: 36.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  86.7%   DL:  86.5%   DC:   0.0%   DH:   0.0%
+L: 35.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  87.4%   DL:  87.2%   DC:   0.0%   DH:   0.0%
+L: 34.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  88.5%   DL:  88.4%   DC:   0.0%   DH:   0.0%
+L: 33.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  88.9%   DL:  88.8%   DC:   0.0%   DH:   0.0%
+L: 32.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  88.3%   DL:  88.2%   DC:   0.0%   DH:   0.0%
+L: 31.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  88.7%   DL:  88.5%   DC:   0.0%   DH:   0.0%
+L: 30.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  86.0%   DL:  85.8%   DC:   0.0%   DH:   0.0%
+L: 29.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  82.7%   DL:  82.5%   DC:   0.0%   DH:   0.0%
+L: 28.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  87.3%   DL:  87.1%   DC:   0.0%   DH:   0.0%
+L: 27.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  84.0%   DL:  84.0%   DC:   0.0%   DH:   0.0%
+L: 26.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  82.4%   DL:  82.4%   DC:   0.0%   DH:   0.0%
+L: 25.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  82.6%   DL:  82.4%   DC:   0.0%   DH:   0.0%
+L: 24.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  79.7%   DL:  79.4%   DC:   0.0%   DH:   0.0%
+L: 23.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  77.2%   DL:  77.0%   DC:   0.0%   DH:   0.0%
+L: 22.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  74.2%   DL:  73.7%   DC:   0.0%   DH:   0.0%
+L: 21.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  74.1%   DL:  74.0%   DC:   0.0%   DH:   0.0%
+L: 20.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  74.0%   DL:  73.9%   DC:   0.0%   DH:   0.0%
+L: 19.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  76.7%   DL:  76.4%   DC:   0.0%   DH:   0.0%
+L: 18.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  80.7%   DL:  80.3%   DC:   0.0%   DH:   0.0%
+L: 17.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  68.4%   DL:  68.0%   DC:   0.0%   DH:   0.0%
+L: 16.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  63.6%   DL:  62.9%   DC:   0.0%   DH:   0.0%
+L: 15.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  62.5%   DL:  61.7%   DC:   0.0%   DH:   0.0%
+L: 14.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  60.2%   DL:  59.9%   DC:   0.0%   DH:   0.0%
+L: 13.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  56.3%   DL:  56.0%   DC:   0.0%   DH:   0.0%
+L: 12.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  54.5%   DL:  53.9%   DC:   0.0%   DH:   0.0%
+L: 11.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  52.2%   DL:  51.5%   DC:   0.0%   DH:   0.0%
+L: 10.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  49.4%   DL:  48.7%   DC:   0.0%   DH:   0.0%
+L:  9.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  44.4%   DL:  43.5%   DC:   0.0%   DH:   0.0%
+L:  8.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  45.6%   DL:  44.7%   DC:   0.0%   DH:   0.0%
+L:  7.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  49.5%   DL:  48.5%   DC:   0.0%   DH:   0.0%
+L:  6.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  47.8%   DL:  46.6%   DC:   0.0%   DH:   0.0%
+L:  5.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  40.3%   DL:  40.0%   DC:   0.0%   DH:   0.0%
+L:  4.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  45.0%   DL:  40.9%   DC:   0.0%   DH:   0.0%
+L:  3.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  53.3%   DL:  49.8%   DC:   0.0%   DH:   0.0%
+L:  2.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  40.3%   DL:  40.0%   DC:   0.0%   DH:   0.0%
+L:  1.0 a:  0.0 b:  0.0 dE  1.0 dC  0.0 dH  0.0   Scaling  De76:  64.8%   DL:  60.2%   DC:   0.0%   DH:   0.0%
+L: 66.2 a:-74.7 b: 13.0 dE 25.9 dC  3.1 dH 25.6   Scaling  De76:  79.3%   DL: 119.9%   DC: 119.8%   DH:  78.4%
+L: 67.6 a:-71.6 b:-12.6 dE 17.9 dC  9.9 dH 13.9   Scaling  De76:  58.4%   DL:  32.2%   DC: -48.9%   DH:  65.8%
+L: 61.8 a:-58.4 b:-23.3 dE 21.7 dC  5.8 dH 20.7   Scaling  De76:  72.2%   DL:  11.3%   DC: -62.0%   DH:  73.9%
+L: 58.4 a:-42.6 b:-37.9 dE 19.2 dC 12.5 dH  6.6   Scaling  De76:  86.9%   DL:  93.2%   DC:  81.9%   DH:  78.2%
+L: 45.3 a:-29.2 b:-33.7 dE 15.9 dC -1.1 dH 14.9   Scaling  De76:  81.8%   DL:  91.4%   DC:  32.9%   DH:  80.6%
+L: 39.9 a:-17.0 b:-42.4 dE 15.7 dC -1.7 dH 14.9   Scaling  De76:  72.5%   DL:  85.7%   DC: -60.4%   DH:  71.3%
+L: 35.4 a: -2.8 b:-47.3 dE 24.1 dC 13.3 dH 16.0   Scaling  De76:  84.6%   DL:  84.6%   DC:  89.3%   DH:  81.3%
+L: 23.1 a: 11.4 b:-32.1 dE  7.8 dC -7.3 dH  2.2   Scaling  De76:  66.3%   DL:  81.1%   DC:  63.7%   DH:  80.3%
+L: 21.2 a: 16.1 b:-38.0 dE  8.8 dC  1.8 dH  8.4   Scaling  De76:  92.7%   DL:  69.8%   DC:  93.7%   DH:  94.0%
+L: 19.1 a: 22.6 b:-32.4 dE  9.5 dC -4.0 dH  5.9   Scaling  De76:  56.2%   DL:  44.1%   DC: -54.2%   DH:  68.3%
+L: 12.8 a: 29.7 b:-31.9 dE 13.6 dC -6.9 dH 10.0   Scaling  De76: 100.0%   DL:  63.5%   DC: 107.5%   DH: 107.7%
+L: 19.0 a: 41.4 b:-28.8 dE  9.4 dC -2.8 dH  6.9   Scaling  De76:  97.8%   DL:  65.3%   DC: 170.9%   DH: 100.2%
+L: 24.7 a: 47.3 b:-24.3 dE 73.4 dC -20.9 dH 69.9   Scaling  De76:  58.5%   DL:  73.2%   DC:  60.3%   DH:  58.1%
+L: 33.0 a: 56.4 b: 48.0 dE 13.1 dC -9.9 dH  2.7   Scaling  De76: 122.5%   DL:  91.3%   DC: 143.4%   DH:  20.7%
+L: 41.2 a: 65.8 b: 52.3 dE 11.5 dC -5.2 dH  7.1   Scaling  De76:  91.2%   DL:  84.3%   DC: 147.4%   DH:  48.0%
+L: 48.5 a: 74.2 b: 49.6 dE  5.8 dC -2.3 dH  4.2   Scaling  De76:  54.6%   DL:  44.5%   DC:  -6.5%   DH:  67.3%
+L: 51.9 a: 78.3 b: 47.3 dE 11.9 dC -8.7 dH  0.3   Scaling  De76:  35.5%   DL:  23.1%   DC: -43.5%   DH:  49.7%
+L: 60.1 a: 85.9 b: 51.6 dE 10.8 dC -4.1 dH  9.8   Scaling  De76:  72.2%   DL:  66.1%   DC:  21.7%   DH:  77.9%
+L: 62.0 a: 83.9 b: 62.0 dE 10.5 dC  1.3 dH  9.5   Scaling  De76:  92.2%   DL:  88.7%   DC: 273.3%   DH:  86.0%
+L: 66.2 a: 76.9 b: 68.6 dE  7.2 dC  5.3 dH  4.2   Scaling  De76:  74.8%   DL: 102.5%   DC:  69.9%   DH:  71.5%
+L: 68.6 a: 70.1 b: 68.1 dE 22.4 dC -2.4 dH 21.8   Scaling  De76:  57.6%   DL:  87.9%   DC:  30.4%   DH:  56.0%
+L: 73.4 a: 54.8 b: 83.8 dE  6.4 dC  2.7 dH  5.6   Scaling  De76:  78.4%   DL: 126.2%   DC:  12.5%   DH:  81.7%
+L: 75.1 a: 48.6 b: 84.5 dE 11.1 dC  3.4 dH 10.3   Scaling  De76:  80.9%   DL: 138.4%   DC: -46.7%   DH:  79.2%
+L: 77.6 a: 38.0 b: 86.0 dE 13.1 dC -1.1 dH 12.3   Scaling  De76:  87.2%   DL:  99.2%   DC: 384.5%   DH:  79.1%
+L: 81.8 a: 26.7 b: 91.3 dE 13.4 dC -1.0 dH 12.5   Scaling  De76:  94.3%   DL: 115.2%   DC: 511.1%   DH:  82.1%
+L: 86.5 a: 14.7 b: 95.0 dE 18.1 dC -1.4 dH 17.6   Scaling  De76: 104.9%   DL: 230.4%   DC: 722.8%   DH:  78.3%
+L: 90.1 a: -2.8 b: 97.5 dE  9.0 dC -1.7 dH  8.7   Scaling  De76:  61.0%   DL:  32.2%   DC:  56.9%   DH:  61.8%
+L: 91.7 a:-11.6 b: 98.5 dE 21.6 dC 21.4 dH  2.4   Scaling  De76:  87.0%   DL:  33.1%   DC:  87.6%   DH:  41.1%
+L: 89.9 a: -7.0 b: 77.5 dE 10.2 dC -4.2 dH  8.8   Scaling  De76:  71.7%   DL: 125.0%   DC:  67.8%   DH:  63.5%
+L: 86.9 a:-16.2 b: 80.4 dE 10.4 dC -2.6 dH  9.6   Scaling  De76:  90.9%   DL: 182.3%   DC: -96.7%   DH:  77.2%
+L: 84.0 a:-26.2 b: 80.4 dE 13.8 dC  9.5 dH  9.5   Scaling  De76: 101.7%   DL: 101.4%   DC: 114.2%   DH:  87.3%
+L: 81.0 a:-31.6 b: 68.1 dE  7.2 dC -5.4 dH  4.0   Scaling  De76:  69.6%   DL: 108.1%   DC:  61.3%   DH:  61.0%
+L: 78.3 a:-37.5 b: 71.2 dE 29.8 dC -12.0 dH 27.0   Scaling  De76:  64.1%   DL: 216.4%   DC: -52.7%   DH:  61.1%
+L: 75.0 a:-66.3 b: 64.5 dE 42.0 dC 12.7 dH 40.0   Scaling  De76:  67.5%   DL: 121.8%   DC:  98.0%   DH:  63.3%
+L: 72.6 a:-76.2 b: 23.7 dE  3.9 dC -2.5 dH  0.1   Scaling  De76: 114.0%   DL:  66.1%   DC: 157.1%   DH: 318.5%
