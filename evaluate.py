@@ -389,7 +389,7 @@ def compare_all(original_slices, converted_slices):
 
 
 # write_temp_files(lab_points, original_shape)
-write_temp_files(lab_points, original_shape)
+write_temp_files(filtered_points, original_shape)
 
 
 def process_files():

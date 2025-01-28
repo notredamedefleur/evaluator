@@ -10,6 +10,7 @@ from colour.models import RGB_COLOURSPACE_ADOBE_RGB1998
 # this is a temp quickfix, because it doesnt want to import for some reason
 folder_path_input = "Evaluate_RGB_Profiles/Input/"
 folder_path_output = "Evaluate_RGB_Profiles/Output/"
+profile = "CS_sep_AdobeRGB_2_ISOcoatedv2-39L_TAC330_V6.icc"
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -58,152 +59,100 @@ def generate_lab_grid(L_min, L_max, A_min, A_max, B_min, B_max, step):
     return lab_grid, lab_points
 
 
-# grid = generate_lab_grid(L_MIN, L_MAX, A_MIN, A_MAX, B_MIN, B_MAX, step)
-
-
-def filter_to_adobe_rgb(vectors):
-    # takes a list of vectors, returns ones that fit into the adobe rgb space
-    # algo: convert lab to xyz using the d65, then convert to rgb using the matrix and check if lies inside
-    filtered_vectors = []
-    for vector in vectors:
-        # if the starting point is within, then good
-        if is_within_adobe_rgb(*vector[0]):
-            filtered_vectors.append(vector)
-    return filtered_vectors
-
-
-# same func but for the whole generated points
-def is_within_adobe_rgb(lab_points):
-    # func for an array of points
-    xyz_points = Lab_to_XYZ(lab_points)
-    rgb_points = XYZ_to_RGB(
-        xyz_points,
-        illuminant_XYZ="D65",
-        illuminant_RGB=RGB_COLOURSPACE_ADOBE_RGB1998.whitepoint,
-        RGB_COLOURSPACE=RGB_COLOURSPACE_ADOBE_RGB1998,
-        colourspace="Adobe RGB (1998)",
+def arr_to_string(arr: np.ndarray):
+    arr = arr.astype(float)
+    # Format each LAB point as a space-separated string and join them with newline
+    formatted_string = "\n".join(
+        " ".join(f"{value:.1f}" for value in point) for point in arr
     )
-    return np.all((rgb_points >= 0) & (rgb_points <= 1), axis=1)
+
+    return formatted_string
 
 
-# this func uses our script to check if lab point is in gamut
-def is_lab_point_in_gamut(point: str):
-    # step 1: take the profile and run the script
-    if os.path.isdir(folder_path_input):
-        for file_name in os.listdir(folder_path_input):
-            if file_name.endswith(".icc"):
-                inputfile = folder_path_input + file_name
+def compare_points(points1, points2, tolerance=0.5):
+    """
+    Compares two lists of space-separated points and filters out points
+    that are not within the tolerance for all values.
+    """
+    filtered_points = []
 
-                dstP = folder_path_input + os.path.splitext(file_name)[0] + ".dstP"
-                inpP = folder_path_input + os.path.splitext(file_name)[0] + ".inpP"
+    for i, (point1, point2) in enumerate(zip(points1, points2), start=1):
+        values1 = list(map(float, point1.strip().split()))
+        values2 = list(map(float, point2.strip().split()))
 
-                subprocess.run(["scripts/icc2tags", inputfile, "dstP"])
-                subprocess.run(["scripts/icc2tags", inputfile, "inpP"])
+        # Check if all values in the point are within the tolerance
+        if all(abs(v1 - v2) < tolerance for v1, v2 in zip(values1, values2)):
+            filtered_points.append(point1)  # Keep the original point
 
-                pointInRGB = subprocess.run(
-                    [
-                        "scripts/transiccgmg.exe",
-                        "-o",
-                        inpP,
-                        "-i",
-                        "*Lab",
-                        "-t",
-                        "3",
-                        "-c",
-                        "0",
-                        "-n",
-                    ],
-                    input=point,
-                    text=True,
-                    capture_output=True,
-                )
-
-                outputCLR = subprocess.run(  # i forgot what clr means but ok
-                    ["scripts/transiccgmg.exe", "-l", inputfile, "-c", "0", "-n"],
-                    input=str(pointInRGB),
-                    text=True,
-                    capture_output=True,
-                )
-
-                # so this is the end point of the rundabout
-                outputLAB = subprocess.run(
-                    [
-                        "scripts/transiccgmg.exe",
-                        "-i",
-                        dstP,
-                        "-o",
-                        "*Lab",
-                        "-t",
-                        "3",
-                        "-c",
-                        "0",
-                        "-n",
-                    ],
-                    input=str(outputCLR),
-                    text=True,
-                    capture_output=True,
-                )
-
-                # step 2 run the script backwards
-
-                pointInRGBBack = subprocess.run(
-                    [
-                        "scripts/transiccgmg.exe",
-                        "-o",
-                        inpP,
-                        "-i",
-                        "*Lab",
-                        "-t",
-                        "3",
-                        "-c",
-                        "0",
-                        "-n",
-                    ],
-                    input=str(outputLAB),
-                    text=True,
-                    capture_output=True,
-                )
-
-                outputCLRBack = subprocess.run(  # i forgot what clr means but ok
-                    ["scripts/transiccgmg.exe", "-l", inputfile, "-c", "0", "-n"],
-                    input=str(pointInRGBBack),
-                    text=True,
-                    capture_output=True,
-                )
-
-                # so this is the end point of the rundabout
-                outputLABBack = subprocess.run(
-                    [
-                        "scripts/transiccgmg.exe",
-                        "-i",
-                        dstP,
-                        "-o",
-                        "*Lab",
-                        "-t",
-                        "3",
-                        "-c",
-                        "0",
-                        "-n",
-                    ],
-                    input=str(outputCLRBack),
-                    text=True,
-                    capture_output=True,
-                )
-
-                # compare
-                # print("enter value: " + point)
-                # print("exit value: " + outputLABBack.stdout)
-                return
+    return filtered_points
 
 
-is_lab_point_in_gamut("50, 0, 0")  # doesnt seem to work. the disparity is too big.
+def filter_lab_points(lab_points, profile):
+    # step 1 -- take all the points and put them into a space separated list
+    lab_points = arr_to_string(lab_points)
+
+    # step 2 -- run the list thru the script
+
+    profile_path = folder_path_input + profile
+    dstP = folder_path_input + os.path.splitext(profile)[0] + ".dstP"
+    inpP = folder_path_input + os.path.splitext(profile)[0] + ".inpP"
+
+    subprocess.run(["scripts/icc2tags", profile_path, "dstP"])
+    subprocess.run(["scripts/icc2tags", profile_path, "inpP"])
+
+    points_in_rgb = subprocess.run(
+        [
+            "scripts/transiccgmg.exe",
+            "-o",
+            inpP,
+            "-i",
+            "*Lab",
+            "-t",
+            "3",
+            "-c",
+            "0",
+            "-n",
+        ],
+        input=lab_points,
+        text=True,
+        capture_output=True,
+    )
+
+    points_to_compare = subprocess.run(
+        [
+            "scripts/transiccgmg.exe",
+            "-o",
+            "*Lab",
+            "-i",
+            inpP,
+            "-t",
+            "3",
+            "-c",
+            "0",
+            "-n",
+        ],
+        input=str(points_in_rgb.stdout),
+        text=True,
+        capture_output=True,
+    )
+    lab_points_list = lab_points.strip().split("\n")
+    points_to_compare_list = points_to_compare.stdout.strip().split("\n")
+
+    return compare_points(lab_points_list, points_to_compare_list)
 
 
-def filter_adobe_rgb_points(lab_points):
+def points_to_nparray(points: list[str]) -> np.ndarray:
+    """
+    Converts a list of space-separated LAB points into a NumPy array.
 
-    mask = is_within_adobe_rgb(lab_points)
-    # returns the points in adobe rgb
-    return lab_points[mask]
+    Parameters:
+    - points (list[str]): A list of LAB points, each as a space-separated string.
+
+    Returns:
+    - np.ndarray: A NumPy array of shape (n, 3) where n is the number of points.
+    """
+    # Split each point into floats and create a 2D array
+    return np.array([list(map(float, point.split())) for point in points])
 
 
 # temporary visualisation function
@@ -252,28 +201,17 @@ def visualize_lab_points_plotly(lab_points):
     fig.show()
 
 
-testVectors = [
-    [[50.0, 0.0, 0.0], [10.0, -128.0, -128.0]],
-    [[100.0, 90.0, 90.0], [20.0, -128.0, -128.0]],
-]
-
-
 # the function generate_lab_grid returns two things: the grid in a numpy 3d array (lab_grid)
 # and the grid in a flattened 1d array (lab_points)
 # this will be fixed later, but now some functions use the 3d grid and some the flattened one
 lab_grid, lab_points = generate_lab_grid(L_MIN, L_MAX, A_MIN, A_MAX, B_MIN, B_MAX, step)
+
 # print(lab_grid)
 
 
 # Filter points within Adobe RGB
-filtered_points = filter_adobe_rgb_points(lab_points)
+filtered_points = filter_lab_points(lab_points, profile)
 
-# print(f"Total points: {lab_points.shape[0]}")
-# print(f"Points within Adobe RGB: {filtered_points.shape[0]}")
-# print("Sample filtered points:")
-# print(filtered_points[:10])
-
-
-# sample visualisation for testing. looks ok to me, but not sure if everything is correct.
-# but the plot does kind of like the 1998 gamut
-# visualize_lab_points_plotly(filtered_points)
+# visualise(takes a np array)
+visualize_lab_points_plotly(points_to_nparray(filtered_points))
+visualize_lab_points_plotly(lab_points)
