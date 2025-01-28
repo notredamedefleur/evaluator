@@ -1,20 +1,13 @@
 # here we generate the vector lists for further evaluation in evaluate.py
+
 import os
 import subprocess
-
-from colour import Lab_to_XYZ, XYZ_to_RGB
-import numpy as np
-from colour.models import RGB_COLOURSPACE_ADOBE_RGB1998
-
+import plotly.graph_objects as go
 
 # this is a temp quickfix, because it doesnt want to import for some reason
 folder_path_input = "Evaluate_RGB_Profiles/Input/"
 folder_path_output = "Evaluate_RGB_Profiles/Output/"
 profile = "CS_sep_AdobeRGB_2_ISOcoatedv2-39L_TAC330_V6.icc"
-
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import plotly.graph_objects as go
 
 
 # set boundaries (numbers are floats)
@@ -211,7 +204,8 @@ lab_grid, lab_points = generate_lab_grid(L_MIN, L_MAX, A_MIN, A_MAX, B_MIN, B_MA
 
 # Filter points within Adobe RGB
 filtered_points = filter_lab_points(lab_points, profile)
-
+filtered_points_nparray = points_to_nparray(filtered_points)
+print(filtered_points_nparray)
 # visualise(takes a np array)
-visualize_lab_points_plotly(points_to_nparray(filtered_points))
-visualize_lab_points_plotly(lab_points)
+# visualize_lab_points_plotly(points_to_nparray(filtered_points))
+# visualize_lab_points_plotly(lab_points)

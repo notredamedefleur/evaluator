@@ -3,10 +3,9 @@ import os
 import subprocess
 import numpy as np
 import json
-from pathlib import Path
 
 # import generated and filtered data to use here
-from generate_data import lab_grid, lab_points, filtered_points
+from generate_data import lab_grid, lab_points, filtered_points, filtered_points_nparray
 
 # here we take the data and evaluate it, returning the differences in deltas
 
@@ -107,39 +106,30 @@ def compare_deltas(deltas1, deltas2):
     return comparison
 
 
-def extract_neighboring_slices(flat_grid, original_shape, step=1):
+def extract_neighboring_slices(flat_grid: np.ndarray, step=1):
     """
-    Extract two neighboring slices along each axis of a 3D grid from a flattened 1D array.
+    Extract neighboring slices from a 2D array of LAB points.
 
     Parameters:
-        flat_grid (numpy.ndarray): The flattened 1D array of LAB points.
-        original_shape (tuple): The original shape of the 3D grid (L_dim, A_dim, B_dim, 3).
+        flat_grid (np.ndarray): A 2D NumPy array of LAB points with shape (n, 3).
         step (int): Step size to extract neighboring slices.
 
     Returns:
-        list of tuple: A list containing tuples of neighboring slices along each axis.
+        list of tuple: A list of tuples, where each tuple contains two neighboring slices.
     """
-    # Reshape the flattened grid back to its original 3D shape
-    grid = flat_grid.reshape(original_shape)
-
     slices = []
-    shape = grid.shape[:3]  # Only consider the 3D shape, excluding the LAB channels
+    n_points = len(flat_grid)
 
-    # Iterate along each axis
-    for axis in range(3):
-        # Ensure the axis has enough elements to take a slice
-        for index in range(0, shape[axis] - step, step):
-            # Slice at the current index and the neighboring index along the axis
-            slice1 = np.take(grid, index, axis=axis)
-            slice2 = np.take(grid, index + step, axis=axis)
-
-            # Store the pair of slices
-            slices.append((slice1, slice2))
+    # Ensure enough points for slicing
+    for i in range(0, n_points - step, step):
+        slice1 = flat_grid[i : i + step]
+        slice2 = flat_grid[i + step : i + 2 * step]
+        slices.append((slice1, slice2))
 
     return slices
 
 
-original_shape = lab_grid.shape
+original_shape = filtered_points_nparray.shape
 
 
 # this is a helper function to take the slices in our format and make them a tab delimited string
@@ -178,7 +168,28 @@ def convert_slices_to_tab_delimited_individual(slice_pairs):
     return formatted_strings
 
 
-def write_temp_files(lab_points, original_shape, temp_folder="temporary_files"):
+def clear_temporary_files(temp_folder="temporary_files"):
+    """
+    Clears all files in the specified temporary folder.
+
+    Parameters:
+        temp_folder (str): The folder to clear.
+    """
+    if os.path.exists(temp_folder):
+        for file in os.listdir(temp_folder):
+            file_path = os.path.join(temp_folder, file)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)  # Remove file or symbolic link
+                elif os.path.isdir(file_path):
+                    os.rmdir(file_path)  # Remove empty directories
+            except Exception as e:
+                print(f"Error deleting file {file_path}: {e}")
+    else:
+        os.makedirs(temp_folder)  # Ensure the folder exists
+
+
+def write_temp_files(lab_points, temp_folder="temporary_files"):
     """
     Writes neighboring slices as temporary files into a specified folder.
 
@@ -190,11 +201,13 @@ def write_temp_files(lab_points, original_shape, temp_folder="temporary_files"):
     Returns:
         list of str: Paths to the created temporary files.
     """
+
+    clear_temporary_files(temp_folder)
     # Ensure the folder exists
     os.makedirs(temp_folder, exist_ok=True)
 
     # Extract neighboring slices
-    neighboring_slices = extract_neighboring_slices(lab_points, original_shape)
+    neighboring_slices = extract_neighboring_slices(lab_points)
     print("Number of neighboring slices:", len(neighboring_slices))
 
     # Generate tab-delimited strings for the slices
@@ -389,7 +402,7 @@ def compare_all(original_slices, converted_slices):
 
 
 # write_temp_files(lab_points, original_shape)
-write_temp_files(filtered_points, original_shape)
+write_temp_files(filtered_points_nparray)
 
 
 def process_files():
