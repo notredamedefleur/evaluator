@@ -53,16 +53,27 @@ def generate_lab_grid(L_min, L_max, A_min, A_max, B_min, B_max, step):
 
 
 def arr_to_string(arr: np.ndarray):
-    arr = arr.astype(float)
-    # Format each LAB point as a space-separated string and join them with newline
-    formatted_string = "\n".join(
-        " ".join(f"{value:.1f}" for value in point) for point in arr
-    )
-
-    return formatted_string
+    return "\n".join(" ".join(map(str, point)) for point in arr)
 
 
-def compare_points(points1, points2, tolerance=0.5):
+def clip_values(data_str):
+    """
+    Clips all values in the input data to a maximum of 255.
+
+    Parameters:
+    data_str (str): A space-separated string with new lines representing rows.
+
+    Returns:
+    np.ndarray: The clipped array where values greater than 255 are set to 255.
+    """
+    data_list = [
+        list(map(float, line.split())) for line in data_str.strip().split("\n")
+    ]
+    data_array = np.array(data_list)  # Convert to numpy array
+    return np.clip(data_array, None, 255)
+
+
+def compare_points(points1, points2, tolerance=0.1):
     """
     Compares two lists of space-separated points and filters out points
     that are not within the tolerance for all values.
@@ -72,6 +83,7 @@ def compare_points(points1, points2, tolerance=0.5):
     for i, (point1, point2) in enumerate(zip(points1, points2), start=1):
         values1 = list(map(float, point1.strip().split()))
         values2 = list(map(float, point2.strip().split()))
+        # print(values1, values2)
 
         # Check if all values in the point are within the tolerance
         if all(abs(v1 - v2) < tolerance for v1, v2 in zip(values1, values2)):
@@ -111,6 +123,10 @@ def filter_lab_points(lab_points, profile):
         capture_output=True,
     )
 
+    # take all rgb's higher than 255 and clip em to 255
+    points_in_rgb = clip_values(points_in_rgb.stdout)
+    points_in_rgb = arr_to_string(points_in_rgb)
+
     points_to_compare = subprocess.run(
         [
             "scripts/transiccgmg.exe",
@@ -124,11 +140,12 @@ def filter_lab_points(lab_points, profile):
             "0",
             "-n",
         ],
-        input=str(points_in_rgb.stdout),
+        input=str(points_in_rgb),
         text=True,
         capture_output=True,
     )
     lab_points_list = lab_points.strip().split("\n")
+
     points_to_compare_list = points_to_compare.stdout.strip().split("\n")
 
     return compare_points(lab_points_list, points_to_compare_list)
@@ -136,16 +153,48 @@ def filter_lab_points(lab_points, profile):
 
 def points_to_nparray(points: list[str]) -> np.ndarray:
     """
-    Converts a list of space-separated LAB points into a NumPy array.
+    Converts a list of space-separated LAB points into a 2D NumPy array.
 
     Parameters:
-    - points (list[str]): A list of LAB points, each as a space-separated string.
+    - points (list[str]): A list where each entry represents a LAB point (L, a, b).
 
     Returns:
-    - np.ndarray: A NumPy array of shape (n, 3) where n is the number of points.
+    - np.ndarray: A 2D NumPy array of shape (n, 3), where each row represents a LAB point.
     """
-    # Split each point into floats and create a 2D array
     return np.array([list(map(float, point.split())) for point in points])
+
+
+def points_to_3d_nparray(points: list[str]) -> np.ndarray:
+    """
+    Converts a list of space-separated LAB points into a 3D NumPy array.
+
+    Parameters:
+    - points (list[str]): A list where each entry represents a LAB point (x, y, z coordinates).
+
+    Returns:
+    - np.ndarray: A NumPy array representing the points in 3D space.
+    """
+    data_array = np.array([list(map(float, point.split())) for point in points])
+
+    # Determine grid dimensions by finding unique coordinates
+    x_vals = np.unique(data_array[:, 0])
+    y_vals = np.unique(data_array[:, 1])
+    z_vals = np.unique(data_array[:, 2])
+
+    x_dim, y_dim, z_dim = len(x_vals), len(y_vals), len(z_vals)
+    shape = (x_dim, y_dim, z_dim, 3)
+
+    # Create an empty grid
+    grid = np.zeros(shape)
+
+    # Populate the grid with points
+    for point in data_array:
+        x_idx = np.where(x_vals == point[0])[0][0]
+        y_idx = np.where(y_vals == point[1])[0][0]
+        z_idx = np.where(z_vals == point[2])[0][0]
+        grid[x_idx, y_idx, z_idx] = point
+
+    return grid
 
 
 # temporary visualisation function
@@ -204,8 +253,14 @@ lab_grid, lab_points = generate_lab_grid(L_MIN, L_MAX, A_MIN, A_MAX, B_MIN, B_MA
 
 # Filter points within Adobe RGB
 filtered_points = filter_lab_points(lab_points, profile)
+# print(filtered_points)
 filtered_points_nparray = points_to_nparray(filtered_points)
-print(filtered_points_nparray)
+# print(len(filtered_points_nparray))
+
+
+# print(filtered_points_nparray)
+# print(len(filtered_points_nparray))
+# print(filtered_points_nparray)
 # visualise(takes a np array)
-# visualize_lab_points_plotly(points_to_nparray(filtered_points))
+visualize_lab_points_plotly(points_to_nparray(filtered_points))
 # visualize_lab_points_plotly(lab_points)
