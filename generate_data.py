@@ -7,15 +7,17 @@ import plotly.graph_objects as go
 # this is a temp quickfix, because it doesnt want to import for some reason
 folder_path_input = "Evaluate_RGB_Profiles/Input/"
 folder_path_output = "Evaluate_RGB_Profiles/Output/"
+
+# change profile here
 profile = "CS_sep_AdobeRGB_2_ISOcoatedv2-39L_TAC330_V6.icc"
 
 
 # set boundaries (numbers are floats)
 L_MIN, L_MAX = 0.0, 100.0
-A_MIN, A_MAX = -128.0, 127.0
-B_MIN, B_MAX = -128.0, 127.0
+A_MIN, A_MAX = -120.0, 120.0
+B_MIN, B_MAX = -120.0, 120.0
 
-step = 10  # 10 for now, can change later
+step = 5  # 10 for now, can change later
 
 import numpy as np
 
@@ -243,24 +245,12 @@ def visualize_lab_points_plotly(lab_points):
     fig.show()
 
 
-# the function generate_lab_grid returns two things: the grid in a numpy 3d array (lab_grid)
-# and the grid in a flattened 1d array (lab_points)
-# this will be fixed later, but now some functions use the 3d grid and some the flattened one
 lab_grid, lab_points = generate_lab_grid(L_MIN, L_MAX, A_MIN, A_MAX, B_MIN, B_MAX, step)
 
-# print(lab_grid)
 
-
-# Filter points within Adobe RGB
 filtered_points = filter_lab_points(lab_points, profile)
-# print(filtered_points)
+
 filtered_points_nparray = points_to_nparray(filtered_points)
-# print(len(filtered_points_nparray))
 
-
-# print(filtered_points_nparray)
-# print(len(filtered_points_nparray))
-# print(filtered_points_nparray)
-# visualise(takes a np array)
+# uncomment this to show 3d plot
 # visualize_lab_points_plotly(points_to_nparray(filtered_points))
-# visualize_lab_points_plotly(lab_points)

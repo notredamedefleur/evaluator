@@ -3,55 +3,21 @@ import os
 import subprocess
 import numpy as np
 import json
+from helpers import format_data, clear_folder
+
+# here we take the data and evaluate it, dumping the diff. in deltas to comparisons dump
 
 # import generated and filtered data to use here
 from generate_data import (
-    lab_grid,
-    lab_points,
-    filtered_points,
     filtered_points_nparray,
-    arr_to_string,
 )
-
-# here we take the data and evaluate it, returning the differences in deltas
-
 
 folder_path_input = "Evaluate_RGB_Profiles/Input/"
 folder_path_output = "Evaluate_RGB_Profiles/Output/"
-profile = "Evaluate_RGB_Profiles/Input/CS_sep_AdobeRGB_2_ISOcoatedv2-39L_TAC330_V6.icc"
+profile = "CS_sep_AdobeRGB_2_ISOcoatedv2-39L_TAC330_V6.icc"
 
 
-def convert_to_float(value):
-    try:
-        return float(value)
-    except ValueError:
-        return value
-
-
-def is_all_floats(data):
-
-    if not isinstance(data, list) or not all(isinstance(row, list) for row in data):
-        return False
-
-    for row in data:
-        for element in row:
-            if not isinstance(element, float):
-                return False
-    return True
-
-
-def format_data(input_data):
-    # Check if input_data is a list of lists with all floats
-    if is_all_floats(input_data):
-        return input_data
-
-    # Otherwise, format the string data into a list of lists
-    input_data = input_data.replace("\t", " ").splitlines()
-    input_data = [row.split() for row in input_data]
-
-    # Convert all elements to floats
-    input_data = [[float(item) for item in row] for row in input_data]
-    return input_data
+profile_path = os.path.join(folder_path_input, profile)
 
 
 def get_all_deltas(vectors):
@@ -150,63 +116,6 @@ def extract_neighboring_slices(lab_points: np.ndarray):
     return slices
 
 
-# this is a helper function to take the slices in our format and make them a tab delimited string
-def convert_slices_to_tab_delimited_individual(slice_pairs):
-    """
-    Converts each pair of neighboring slices into two separate tab-delimited strings
-    matching the exact format of the provided file.
-
-    Parameters:
-        slice_pairs (list of tuple): List of tuples, where each tuple contains two slices (2D arrays).
-
-    Returns:
-        list of tuple: A list of tuples, where each tuple contains two formatted strings
-                       (one for each slice in the pair).
-    """
-    formatted_strings = []
-
-    for slice1, slice2 in slice_pairs:
-        # Flatten both slices into a 2D array with shape (N, 3)
-        slice1_flat = slice1.reshape(-1, slice1.shape[-1])
-        slice2_flat = slice2.reshape(-1, slice2.shape[-1])
-
-        # Convert slice1 to a tab-delimited string
-        slice1_formatted = "\n".join(
-            "\t".join(f"{value:g}" for value in row) for row in slice1_flat
-        )
-
-        # Convert slice2 to a tab-delimited string
-        slice2_formatted = "\n".join(
-            "\t".join(f"{value:g}" for value in row) for row in slice2_flat
-        )
-
-        # Append the result to the list as a tuple
-        formatted_strings.append((slice1_formatted, slice2_formatted))
-
-    return formatted_strings
-
-
-def clear_temporary_files(temp_folder="temporary_files"):
-    """
-    Clears all files in the specified temporary folder.
-
-    Parameters:
-        temp_folder (str): The folder to clear.
-    """
-    if os.path.exists(temp_folder):
-        for file in os.listdir(temp_folder):
-            file_path = os.path.join(temp_folder, file)
-            try:
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)  # Remove file or symbolic link
-                elif os.path.isdir(file_path):
-                    os.rmdir(file_path)  # Remove empty directories
-            except Exception as e:
-                print(f"Error deleting file {file_path}: {e}")
-    else:
-        os.makedirs(temp_folder)  # Ensure the folder exists
-
-
 def write_temp_files(lab_points, temp_folder="temporary_files"):
     """
     Writes neighboring slices as temporary files into corresponding subfolders.
@@ -235,6 +144,9 @@ def write_temp_files(lab_points, temp_folder="temporary_files"):
         axis_folder = os.path.join(temp_folder, f"{axis}_axis")
         os.makedirs(axis_folder, exist_ok=True)
 
+        # clear stuff before generating
+        clear_folder(axis_folder)
+
         for i, (slice1, slice2) in enumerate(slice_pairs):
             file_path1 = os.path.join(axis_folder, f"slice1_{i}.txt")
             file_path2 = os.path.join(axis_folder, f"slice2_{i}.txt")
@@ -248,25 +160,17 @@ def write_temp_files(lab_points, temp_folder="temporary_files"):
     return file_paths
 
 
-# now the original and converted slices are stored in these two
-# variables. they are tab delimited so
-# original_slices, converted_slices = convert(lab_points, profile, original_shape)
-
-# print(original_slices[:2])
-# print(converted_slices[:2])
-
-
 # this function works at last!!!
-def convert(Input_Lab1, Input_Lab2, profile):
+def convert(Input_Lab1, Input_Lab2, profile_path):
 
     print("start")
 
-    inputfile = profile
+    inputfile = profile_path
     print(inputfile)
-    outputfile = folder_path_output + os.path.splitext(profile)[0] + ".txt"
-    dstP = os.path.splitext(profile)[0] + ".dstP"
+    outputfile = folder_path_output + os.path.splitext(profile_path)[0] + ".txt"
+    dstP = os.path.splitext(profile_path)[0] + ".dstP"
     print(dstP)
-    inpP = os.path.splitext(profile)[0] + ".inpP"
+    inpP = os.path.splitext(profile_path)[0] + ".inpP"
     print(inpP)
 
     subprocess.run(["scripts/icc2tags", inputfile, "dstP"])
@@ -415,11 +319,7 @@ def compare(original_slices, converted_slices):
     return compared_slices
 
 
-# write_temp_files(lab_points, original_shape)
-write_temp_files(filtered_points_nparray)
-
-
-def process_files(profile, folder):
+def process_files(profile_path, folder):
     temp_folder = folder
     converted_slices = []
     original_slices = []
@@ -439,22 +339,14 @@ def process_files(profile, folder):
             original_slice2 = f2.read()
 
         # Now using convert() instead of take_files_from_folder_and_convert()
-        converted_slice1, converted_slice2 = convert(file_path1, file_path2, profile)
+        converted_slice1, converted_slice2 = convert(
+            file_path1, file_path2, profile_path
+        )
 
         original_slices.extend([original_slice1, original_slice2])
         converted_slices.extend([converted_slice1, converted_slice2])
 
     return original_slices, converted_slices
-
-
-original_slices_a, converted_slices_a = process_files(profile, "temporary_files/a_axis")
-original_slices_b, converted_slices_b = process_files(profile, "temporary_files/b_axis")
-original_slices_l, converted_slices_l = process_files(profile, "temporary_files/l_axis")
-
-
-compared_slices_a = compare(original_slices_a, converted_slices_a)
-compared_slices_b = compare(original_slices_b, converted_slices_b)
-compared_slices_l = compare(original_slices_l, converted_slices_l)
 
 
 def save_comparisons_to_files(hashmaps, output_folder):
@@ -488,6 +380,24 @@ def save_comparisons_to_files(hashmaps, output_folder):
         with open(file_path, "w") as json_file:
             json.dump(hashmap, json_file, indent=4)  # Save as pretty JSON
 
+
+write_temp_files(filtered_points_nparray)
+
+
+original_slices_a, converted_slices_a = process_files(
+    profile_path, "temporary_files/a_axis"
+)
+original_slices_b, converted_slices_b = process_files(
+    profile_path, "temporary_files/b_axis"
+)
+original_slices_l, converted_slices_l = process_files(
+    profile_path, "temporary_files/l_axis"
+)
+
+
+compared_slices_a = compare(original_slices_a, converted_slices_a)
+compared_slices_b = compare(original_slices_b, converted_slices_b)
+compared_slices_l = compare(original_slices_l, converted_slices_l)
 
 save_comparisons_to_files(compared_slices_a, "comparisons dump/a_axis")
 save_comparisons_to_files(compared_slices_b, "comparisons dump/b_axis")
