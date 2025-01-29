@@ -115,24 +115,30 @@ def extract_neighboring_slices(lab_points: np.ndarray):
         lab_points (np.ndarray): A 2D NumPy array of shape (n, 3) representing LAB points.
 
     Returns:
-        dict: A dictionary with keys 'L', 'a', and 'b' containing lists of slices for each axis.
+        dict: A dictionary with keys 'L', 'a', and 'b' containing lists of slice pairs for each axis.
     """
     slices = {"L": [], "a": [], "b": []}
 
     # Extract slices along L-axis
     unique_L_values = np.unique(lab_points[:, 0])
-    for L in unique_L_values:
-        slices["L"].append(lab_points[lab_points[:, 0] == L])
+    for i in range(len(unique_L_values) - 1):
+        slice1 = lab_points[lab_points[:, 0] == unique_L_values[i]]
+        slice2 = lab_points[lab_points[:, 0] == unique_L_values[i + 1]]
+        slices["L"].append((slice1, slice2))
 
     # Extract slices along a-axis
     unique_a_values = np.unique(lab_points[:, 1])
-    for a in unique_a_values:
-        slices["a"].append(lab_points[lab_points[:, 1] == a])
+    for i in range(len(unique_a_values) - 1):
+        slice1 = lab_points[lab_points[:, 1] == unique_a_values[i]]
+        slice2 = lab_points[lab_points[:, 1] == unique_a_values[i + 1]]
+        slices["a"].append((slice1, slice2))
 
     # Extract slices along b-axis
     unique_b_values = np.unique(lab_points[:, 2])
-    for b in unique_b_values:
-        slices["b"].append(lab_points[lab_points[:, 2] == b])
+    for i in range(len(unique_b_values) - 1):
+        slice1 = lab_points[lab_points[:, 2] == unique_b_values[i]]
+        slice2 = lab_points[lab_points[:, 2] == unique_b_values[i + 1]]
+        slices["b"].append((slice1, slice2))
 
     return slices
 
@@ -218,14 +224,18 @@ def write_temp_files(lab_points, temp_folder="temporary_files"):
     # Store the paths of the created files
     file_paths = []
 
-    for axis, slices in neighboring_slices.items():
+    for axis, slice_pairs in neighboring_slices.items():
         axis_folder = os.path.join(temp_folder, f"{axis}_axis")
         os.makedirs(axis_folder, exist_ok=True)
 
-        for i, slice_data in enumerate(slices):
-            file_path = os.path.join(axis_folder, f"slice_{i}.txt")
-            np.savetxt(file_path, slice_data, delimiter="\t", fmt="%.2f")
-            file_paths.append(file_path)
+        for i, (slice1, slice2) in enumerate(slice_pairs):
+            file_path1 = os.path.join(axis_folder, f"slice1_{i}.txt")
+            file_path2 = os.path.join(axis_folder, f"slice2_{i}.txt")
+
+            np.savetxt(file_path1, slice1, delimiter="\t", fmt="%.2f")
+            np.savetxt(file_path2, slice2, delimiter="\t", fmt="%.2f")
+
+            file_paths.extend([file_path1, file_path2])
 
     print(f"Temporary files written to {temp_folder}")
     return file_paths
@@ -240,18 +250,9 @@ def write_temp_files(lab_points, temp_folder="temporary_files"):
 
 
 # this function works at last!!!
-def take_files_from_folder_and_convert(Input_Lab1, Input_Lab2, profile):
+def convert(Input_Lab1, Input_Lab2, profile):
 
     print("start")
-
-    # Extract neighboring slices
-    neighboring_slices = extract_neighboring_slices(lab_points)
-    print("Number of neighboring slices:", len(neighboring_slices))
-
-    # Generate tab-delimited strings for the slices
-    tab_delimited_strings = convert_slices_to_tab_delimited_individual(
-        neighboring_slices
-    )
 
     inputfile = profile
     print(inputfile)
@@ -402,34 +403,35 @@ def compare_all(original_slices, converted_slices):
 write_temp_files(filtered_points_nparray)
 
 
-def process_files():
+def process_files(profile, folder):
+    temp_folder = folder
     converted_slices = []
     original_slices = []
 
-    for i in range(7):
+    slice_files = sorted(f for f in os.listdir(temp_folder) if f.endswith(".txt"))
 
-        slice1_path = f"temporary_files/slice1_{i}.txt"
-        slice2_path = f"temporary_files/slice2_{i}.txt"
+    if len(slice_files) % 2 != 0:
+        print(f"Warning: Uneven number of slices in {temp_folder}. Skipping last file.")
+        slice_files = slice_files[:-1]
 
-        with open(slice1_path, "r") as f1:
-            original_slice_1 = f1.read()
+    for i in range(0, len(slice_files), 2):
+        file_path1 = os.path.join(temp_folder, slice_files[i])
+        file_path2 = os.path.join(temp_folder, slice_files[i + 1])
 
-        with open(slice2_path, "r") as f2:
-            original_slice_2 = f2.read()
+        with open(file_path1, "r") as f1, open(file_path2, "r") as f2:
+            original_slice1 = f1.read()
+            original_slice2 = f2.read()
 
-            original_slices.append((original_slice_1, original_slice_2))
+        # Now using convert() instead of take_files_from_folder_and_convert()
+        converted_slice1, converted_slice2 = convert(file_path1, file_path2, profile)
 
-        converted_slice_1, converted_slice_2 = take_files_from_folder_and_convert(
-            slice1_path,
-            slice2_path,
-            profile,
-        )
+        original_slices.extend([original_slice1, original_slice2])
+        converted_slices.extend([converted_slice1, converted_slice2])
 
-        converted_slices.append((converted_slice_1, converted_slice_2))
     return original_slices, converted_slices
 
 
-# original_slices, converted_slices = process_files()
+original_slices, converted_slices = process_files(profile, "temporary_files/a_axis")
 
 # compared_slices = compare_all(original_slices, converted_slices)
 # print(len(compared_slices))
