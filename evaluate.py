@@ -5,7 +5,13 @@ import numpy as np
 import json
 
 # import generated and filtered data to use here
-from generate_data import lab_grid, lab_points, filtered_points, filtered_points_nparray
+from generate_data import (
+    lab_grid,
+    lab_points,
+    filtered_points,
+    filtered_points_nparray,
+    arr_to_string,
+)
 
 # here we take the data and evaluate it, returning the differences in deltas
 
@@ -80,7 +86,8 @@ def get_all_deltas(vectors):
         deltaC = abs(C1 - C2)
         delta_C_arr.append(deltaC)
 
-        deltaH = float(math.sqrt((deltaE**2) - (deltaL**2) - (deltaC**2)))
+        deltaH_squared = (deltaE**2) - (deltaL**2) - (deltaC**2)
+        deltaH = math.sqrt(max(0.0, deltaH_squared))  # Ensure non-negative value
         delta_H_arr.append(deltaH)
 
     return {
@@ -387,15 +394,24 @@ def compare_slice(input_lab_1, input_lab_2, output_lab_1, output_lab_2):
     return comparison
 
 
-def compare_all(original_slices, converted_slices):
+def compare(original_slices, converted_slices):
     compared_slices = []
-    for i in range(len(original_slices)):
-        original_slice1, original_slice2 = original_slices[i]
-        converted_slice1, converted_slice2 = converted_slices[i]
+
+    # Ensure the slices are structured correctly
+    if len(original_slices) % 2 != 0 or len(converted_slices) % 2 != 0:
+        raise ValueError("Mismatched slice pairs in original or converted slices.")
+
+    for i in range(0, len(original_slices), 2):
+        original_slice1 = original_slices[i]
+        original_slice2 = original_slices[i + 1]
+        converted_slice1 = converted_slices[i]
+        converted_slice2 = converted_slices[i + 1]
+
         comparison = compare_slice(
             original_slice1, original_slice2, converted_slice1, converted_slice2
         )
         compared_slices.append(comparison)
+
     return compared_slices
 
 
@@ -431,11 +447,14 @@ def process_files(profile, folder):
     return original_slices, converted_slices
 
 
-original_slices, converted_slices = process_files(profile, "temporary_files/a_axis")
+original_slices_a, converted_slices_a = process_files(profile, "temporary_files/a_axis")
+original_slices_b, converted_slices_b = process_files(profile, "temporary_files/b_axis")
+original_slices_l, converted_slices_l = process_files(profile, "temporary_files/l_axis")
 
-# compared_slices = compare_all(original_slices, converted_slices)
-# print(len(compared_slices))
-# print(compared_slices[0])
+
+compared_slices_a = compare(original_slices_a, converted_slices_a)
+compared_slices_b = compare(original_slices_b, converted_slices_b)
+compared_slices_l = compare(original_slices_l, converted_slices_l)
 
 
 def save_comparisons_to_files(hashmaps, output_folder):
@@ -450,14 +469,26 @@ def save_comparisons_to_files(hashmaps, output_folder):
         None
     """
     # Ensure the output folder exists
-    os.makedirs(output_folder, exist_ok=True)
+    if os.path.exists(output_folder):
+        for file in os.listdir(output_folder):
+            file_path = os.path.join(output_folder, file)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)  # Remove file or symbolic link
+                elif os.path.isdir(file_path):
+                    os.rmdir(file_path)  # Remove empty directories
+            except Exception as e:
+                print(f"Error deleting file {file_path}: {e}")
+    else:
+        os.makedirs(output_folder, exist_ok=True)
 
     # Loop through the hashmaps and save each to a file
     for i, hashmap in enumerate(hashmaps):
         file_path = os.path.join(output_folder, f"hashmap_{i}.json")
         with open(file_path, "w") as json_file:
             json.dump(hashmap, json_file, indent=4)  # Save as pretty JSON
-        print(f"Saved {file_path}")
 
 
-# save_comparisons_to_files(compared_slices, "comparisons dump")
+save_comparisons_to_files(compared_slices_a, "comparisons dump/a_axis")
+save_comparisons_to_files(compared_slices_b, "comparisons dump/b_axis")
+save_comparisons_to_files(compared_slices_l, "comparisons dump/l_axis")
