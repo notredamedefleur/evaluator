@@ -1,14 +1,13 @@
-# here we generate the vector lists for further evaluation in evaluate.py
-
 import os
 import subprocess
 import plotly.graph_objects as go
+import numpy as np
 
-# this is a temp quickfix, because it doesnt want to import for some reason
+
 folder_path_input = "Evaluate_RGB_Profiles/Input/"
 folder_path_output = "Evaluate_RGB_Profiles/Output/"
 
-# change profile here
+# CHANGE PROFILE HERE
 profile = "CS_sep_AdobeRGB_2_ISOcoatedv2-39L_TAC330_V6.icc"
 
 
@@ -17,9 +16,8 @@ L_MIN, L_MAX = 0.0, 100.0
 A_MIN, A_MAX = -120.0, 120.0
 B_MIN, B_MAX = -120.0, 120.0
 
-step = 10  # 10 for now, can change later
-
-import numpy as np
+# ADJUST STEP HERE
+step = 10
 
 
 def generate_lab_grid(L_min, L_max, A_min, A_max, B_min, B_max, step):

@@ -1,5 +1,6 @@
 import math
 import os
+import shutil
 import subprocess
 import numpy as np
 import json
@@ -80,7 +81,6 @@ def compare_deltas(deltas1, deltas2):
     return comparison
 
 
-# this is for the L axis
 def extract_neighboring_slices(lab_points: np.ndarray):
     """
     Extract slices along the L, a, and b axes from a 2D NumPy array of LAB points.
@@ -161,7 +161,6 @@ def write_temp_files(lab_points, temp_folder="temporary_files"):
     return file_paths
 
 
-# this function works at last!!!
 def convert(Input_Lab1, Input_Lab2, profile_path):
 
     print("start")
@@ -437,6 +436,60 @@ compared_slices_l = compare(original_slices_l, converted_slices_l)
 save_comparisons_to_files(compared_slices_a, "comparisons dump/a_axis")
 save_comparisons_to_files(compared_slices_b, "comparisons dump/b_axis")
 save_comparisons_to_files(compared_slices_l, "comparisons dump/l_axis")
+
+
+def reshuffle_files_by_axis_from_json(folder_path, sort_axis="L"):
+    """
+    Reorders JSON files in a folder based on increasing values of `original_vector_entrance`.
+    The order is determined by the specified axis (L, A, or B).
+
+    Parameters:
+        folder_path (str): Path to the folder containing JSON files.
+        sort_axis (str): Axis to sort by ("L", "A", or "B").
+
+    Returns:
+        None
+    """
+    axis_index = {"L": 0, "A": 1, "B": 2}[sort_axis]
+    file_data = []
+
+    # Read each JSON file and extract the sorting key
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".json"):
+            file_path = os.path.join(folder_path, filename)
+            with open(file_path, "r") as file:
+                data = json.load(file)
+                # Extract the first vector from `original_vector_entrance`
+                if (
+                    "original_vector_entrance" in data
+                    and data["original_vector_entrance"]
+                ):
+                    sort_value = data["original_vector_entrance"][0][axis_index]
+                    file_data.append((sort_value, filename))
+                else:
+                    print(
+                        f"Skipping {filename}: Missing 'original_vector_entrance' or invalid format."
+                    )
+
+    # Sort files by the extracted axis value
+    file_data.sort(key=lambda x: x[0])
+
+    # Rename files in the order of the sorted data
+    for i, (_, filename) in enumerate(file_data):
+        old_path = os.path.join(folder_path, filename)
+        new_name = f"sorted_{i}.json"
+        new_path = os.path.join(folder_path, new_name)
+
+        # Rename the file to reflect the sorted order
+        shutil.move(old_path, new_path)
+
+    print(f"Files in {folder_path} have been reshuffled based on the {sort_axis}-axis.")
+
+
+# this is a kind of workaround, but should not break anything. this can be discussed in refactoring
+reshuffle_files_by_axis_from_json("comparisons dump/a_axis", sort_axis="A")
+reshuffle_files_by_axis_from_json("comparisons dump/b_axis", sort_axis="B")
+reshuffle_files_by_axis_from_json("comparisons dump/l_axis", sort_axis="L")
 
 
 collect_all_comparisons(compared_slices_l, compared_slices_a, compared_slices_b)
