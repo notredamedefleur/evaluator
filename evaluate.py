@@ -493,3 +493,6 @@ reshuffle_files_by_axis_from_json("comparisons dump/l_axis", sort_axis="L")
 
 
 collect_all_comparisons(compared_slices_l, compared_slices_a, compared_slices_b)
+print(
+    "All files collected successfully. Look for the final file in comparisons dump/collected_files"
+)
