@@ -17,7 +17,7 @@ L_MIN, L_MAX = 0.0, 100.0
 A_MIN, A_MAX = -120.0, 120.0
 B_MIN, B_MAX = -120.0, 120.0
 
-step = 5  # 10 for now, can change later
+step = 10  # 10 for now, can change later
 
 import numpy as np
 

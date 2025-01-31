@@ -4,6 +4,7 @@ import subprocess
 import numpy as np
 import json
 from helpers import format_data, clear_folder
+from generate_data import profile
 
 # here we take the data and evaluate it, dumping the diff. in deltas to comparisons dump
 
@@ -14,7 +15,6 @@ from generate_data import (
 
 folder_path_input = "Evaluate_RGB_Profiles/Input/"
 folder_path_output = "Evaluate_RGB_Profiles/Output/"
-profile = "CS_sep_AdobeRGB_2_ISOcoatedv2-39L_TAC330_V6.icc"
 
 
 profile_path = os.path.join(folder_path_input, profile)
@@ -66,6 +66,7 @@ def get_all_deltas(vectors):
 
 def compare_deltas(deltas1, deltas2):
     comparison = {}
+    # this filters out the mismatching vectors
     for key in deltas1:
         if key in deltas2:
             diff = f"{key}diff"
@@ -314,6 +315,10 @@ def compare(original_slices, converted_slices):
         comparison = compare_slice(
             original_slice1, original_slice2, converted_slice1, converted_slice2
         )
+
+        comparison["original_vector_entrance"] = format_data(original_slice1)
+        comparison["converted_vector_entrance"] = format_data(converted_slice1)
+
         compared_slices.append(comparison)
 
     return compared_slices
@@ -324,25 +329,39 @@ def process_files(profile_path, folder):
     converted_slices = []
     original_slices = []
 
-    slice_files = sorted(f for f in os.listdir(temp_folder) if f.endswith(".txt"))
+    # Get slice1_X and slice2_X files separately
+    slice1_files = sorted(
+        f
+        for f in os.listdir(temp_folder)
+        if f.startswith("slice1_") and f.endswith(".txt")
+    )
+    slice2_files = sorted(
+        f
+        for f in os.listdir(temp_folder)
+        if f.startswith("slice2_") and f.endswith(".txt")
+    )
 
-    if len(slice_files) % 2 != 0:
-        print(f"Warning: Uneven number of slices in {temp_folder}. Skipping last file.")
-        slice_files = slice_files[:-1]
+    # Ensure the number of files match
+    if len(slice1_files) != len(slice2_files):
+        raise ValueError(
+            f"Mismatched number of 'slice1' and 'slice2' files in {temp_folder}."
+        )
 
-    for i in range(0, len(slice_files), 2):
-        file_path1 = os.path.join(temp_folder, slice_files[i])
-        file_path2 = os.path.join(temp_folder, slice_files[i + 1])
+    # Process files in pairs: "slice1_X" with "slice2_X"
+    for file1, file2 in zip(slice1_files, slice2_files):
+        file_path1 = os.path.join(temp_folder, file1)
+        file_path2 = os.path.join(temp_folder, file2)
 
         with open(file_path1, "r") as f1, open(file_path2, "r") as f2:
             original_slice1 = f1.read()
             original_slice2 = f2.read()
 
-        # Now using convert() instead of take_files_from_folder_and_convert()
+        # Convert slices
         converted_slice1, converted_slice2 = convert(
             file_path1, file_path2, profile_path
         )
 
+        # Extend slices
         original_slices.extend([original_slice1, original_slice2])
         converted_slices.extend([converted_slice1, converted_slice2])
 
@@ -381,12 +400,27 @@ def save_comparisons_to_files(hashmaps, output_folder):
             json.dump(hashmap, json_file, indent=4)  # Save as pretty JSON
 
 
+def collect_all_comparisons(*args):
+    all_comparisons = []
+
+    for comparison_list in args:
+        all_comparisons.extend(comparison_list)
+
+    output_folder = "comparisons dump/collected_files"
+    os.makedirs(output_folder, exist_ok=True)
+
+    file_path = os.path.join(output_folder, "all_comparisons.json")
+    with open(file_path, "w") as f:
+        json.dump(all_comparisons, f, indent=4)
+
+
 write_temp_files(filtered_points_nparray)
 
 
 original_slices_a, converted_slices_a = process_files(
     profile_path, "temporary_files/a_axis"
 )
+
 original_slices_b, converted_slices_b = process_files(
     profile_path, "temporary_files/b_axis"
 )
@@ -399,6 +433,10 @@ compared_slices_a = compare(original_slices_a, converted_slices_a)
 compared_slices_b = compare(original_slices_b, converted_slices_b)
 compared_slices_l = compare(original_slices_l, converted_slices_l)
 
+
 save_comparisons_to_files(compared_slices_a, "comparisons dump/a_axis")
 save_comparisons_to_files(compared_slices_b, "comparisons dump/b_axis")
 save_comparisons_to_files(compared_slices_l, "comparisons dump/l_axis")
+
+
+collect_all_comparisons(compared_slices_l, compared_slices_a, compared_slices_b)
